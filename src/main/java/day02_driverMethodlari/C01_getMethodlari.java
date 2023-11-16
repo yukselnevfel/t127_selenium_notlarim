@@ -23,5 +23,7 @@ public class C01_getMethodlari {
         driver.get("https://youtube.com");
 
         driver.close();
+        driver.quit();
+
     }
 }
