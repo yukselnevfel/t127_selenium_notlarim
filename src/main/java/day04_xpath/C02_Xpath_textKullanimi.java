@@ -9,50 +9,55 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.time.Duration;
 
 public class C02_Xpath_textKullanimi {
+      /*
+        Xpath link olmasa bile yazisi olan webelementleri
+        yazi ile locate etmemize imkan tanir
+     */
 
+    public static void main(String[] args) throws InterruptedException {
 
+        System.setProperty("Webdriver.chrome.driver", "kurulumDosyalari/chromedriver");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        public static void main(String[] args) throws InterruptedException {
+        //1- https://testotomasyonu.com/addremove/ adresine gidin
+        driver.get("https://testotomasyonu.com/addremove/");
+        //2- Add Element butonuna basin
+        driver.findElement(By.xpath("//button[.='Add']")).click();
+        //3- Delete butonu’nun gorunur oldugunu test edin
+        WebElement removeButonu = driver.findElement(By.xpath("//button[text()='Remove']"));
 
-            System.setProperty("Webdriver.chrome.driver","kurulumDosyalari/chromedriver");
-            WebDriver driver = new ChromeDriver();
-            driver.manage().window().maximize();
-            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        if (removeButonu.isDisplayed()) {
+            System.out.println("Remove butonu gorunme testi PASSED");
+        } else System.out.println("Remove butonu gorunme testi FAILED");
 
-            //1- https://testotomasyonu.com/addremove/ adresine gidin
-            driver.get("https://testotomasyonu.com/addremove/");
-            //2- Add Element butonuna basin
-            driver.findElement(By.xpath("//button[text()='Add']")).click();
-            //3- Delete butonu’nun gorunur oldugunu test edin
-            WebElement removeButonu = driver.findElement(By.xpath("//button[text()='Remove']"));
+        //4- Remove tusuna basin
 
-            if (removeButonu.isDisplayed()){
-                System.out.println("Remove butonu gorunme testi PASSED");
-            }else System.out.println("Remove butonu gorunme testi FAILED");
+        removeButonu.click();
 
-            //4- Remove tusuna basin
+        //5- “Add/Remove Elements” yazisinin gorunur oldugunu test edin
 
-            removeButonu.click();
+        WebElement addRemoveYaziElementi = driver.findElement(By.xpath("//*[contains(text(),'Remove Elements')]"));
 
-            //5- “Add/Remove Elements” yazisinin gorunur oldugunu test edin
+        if (addRemoveYaziElementi.isDisplayed()) {
+            System.out.println("Add Remove Yazisi gorunme testi PASSED");
+        } else System.out.println("Add Remove Yazisi gorunme testi FAILED");
 
-            WebElement addRemoveYaziElementi = driver.findElement(By.xpath("//*[text()='Add/Remove Elements']"));
+        // Remove butonunun gorunur olmadigini test edin
 
-            if (addRemoveYaziElementi.isDisplayed()){
-                System.out.println("Add Remove Yazisi gorunme testi PASSED");
-            }else System.out.println("Add Remove Yazisi gorunme testi FAILED");
+        try {
+            removeButonu = driver.findElement(By.xpath("//button[text()='Remove']"));
+            System.out.println("Remove butonu gorunmeme testi FAILED");
+        } catch (NoSuchElementException e) {
+            System.out.println("Remove butonu gorunmeme testi PASSED");
+        }
 
-            // Remove butonunun gorunur olmadigini test edin
-
-            try {
-                removeButonu = driver.findElement(By.xpath("//button[text()='Remove']"));
-                System.out.println("Remove butonu gorunmeme testi FAILED");
-            } catch (NoSuchElementException e) {
-                System.out.println("Remove butonu gorunmeme testi PASSED");
-            }
-
-            driver.quit();
+        driver.quit();
 
 
     }
-}
+
+
+    }
+
